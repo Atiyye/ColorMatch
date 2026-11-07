@@ -1,13 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    [Header("Data Pool")]
     public List<ColorData> allColorDatas; 
 
-    private void Awake()
+    void Awake()
     {
         if (Instance == null)
         {
@@ -15,8 +16,6 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject); 
         }
         else
-        {
             Destroy(gameObject); 
-        }
     }
 }
