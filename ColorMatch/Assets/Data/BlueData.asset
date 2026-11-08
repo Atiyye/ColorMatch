@@ -15,9 +15,8 @@ MonoBehaviour:
   colorName: Blue
   boxColor: {r: 0.25882354, g: 0.7254902, b: 0.9647059, a: 0}
   objectSprites:
-  - {fileID: 21300000, guid: dc2d186defac9364b92775ef734f8a7d, type: 3}
-  - {fileID: 21300000, guid: e30ce4462c55e1b408368df8c47bf74e, type: 3}
-  - {fileID: 21300000, guid: 765734e7442d8e244915b2c12e92b1a6, type: 3}
-  - {fileID: 21300000, guid: 8d1b9974687f32d4bb5f2a5dde70f908, type: 3}
-  - {fileID: 21300000, guid: eb64037d609078b48a142cc34ce9cc1c, type: 3}
-  - {fileID: 21300000, guid: 17cbdb2fc69f3f14597740ef06bb5768, type: 3}
+  - {fileID: 21300000, guid: caae905035946824e953c047d25afeaf, type: 3}
+  - {fileID: 21300000, guid: 48b565f9b3bf8b5439064ccc16cef234, type: 3}
+  - {fileID: 21300000, guid: 598d60d5cdece774f8dec369ab9e95bc, type: 3}
+  - {fileID: 21300000, guid: bbf3cf0dd973a7b4787b3a941612259a, type: 3}
+  - {fileID: 21300000, guid: 02852aec1ff039e49a36404d7efff824, type: 3}

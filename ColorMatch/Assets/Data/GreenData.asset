@@ -15,7 +15,8 @@ MonoBehaviour:
   colorName: Green
   boxColor: {r: 0.3647059, g: 0.83137256, b: 0.627451, a: 0}
   objectSprites:
-  - {fileID: 21300000, guid: f3463cae4eb0b4944876b49f9dcf640e, type: 3}
-  - {fileID: 21300000, guid: 83c08bcce8399ad4d82ea37429440038, type: 3}
-  - {fileID: 21300000, guid: d6f9afc7a09f69c41b72ce57b83f30ea, type: 3}
-  - {fileID: 21300000, guid: 29c9d5abd6227b344b086790eaa9698c, type: 3}
+  - {fileID: 21300000, guid: c0981594231849449bf21ecfebdb3382, type: 3}
+  - {fileID: 21300000, guid: c3dc6b23dfac9b641b8827b4fcfb427f, type: 3}
+  - {fileID: 21300000, guid: efbf9fccc680ca046a701687211fc58d, type: 3}
+  - {fileID: 21300000, guid: 69a9b25ebc0e49e49bb9c4790df41c55, type: 3}
+  - {fileID: 21300000, guid: 31b6d9795cd6fa444aa83b52ac980b42, type: 3}
