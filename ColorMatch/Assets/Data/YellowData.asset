@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: YellowData
   m_EditorClassIdentifier: 
   colorName: Yellow
-  boxColor: {r: 1, g: 1, b: 0, a: 0}
-  objectSprites: []
+  boxColor: {r: 1, g: 1, b: 0.3254902, a: 0}
+  objectSprites:
+  - {fileID: 21300000, guid: e05aa1e306b718f4ca4a67885f94b9cd, type: 3}
+  - {fileID: 21300000, guid: ae0e4f85c4168f2479bb96808f062c8a, type: 3}
+  - {fileID: 21300000, guid: ea747c078292feb428f9e3ed5b74b504, type: 3}
+  - {fileID: 21300000, guid: ad99bbf404e4ebf44a378ecba8699c9f, type: 3}
+  - {fileID: 21300000, guid: b8115aeb31fb7a34e936a561fac5712b, type: 3}
+  - {fileID: 21300000, guid: 4851600fda8ce8d45a78892aa4406af5, type: 3}

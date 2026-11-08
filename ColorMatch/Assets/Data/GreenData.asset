@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: GreenData
   m_EditorClassIdentifier: 
   colorName: Green
-  boxColor: {r: 0, g: 1, b: 0, a: 0}
-  objectSprites: []
+  boxColor: {r: 0.3647059, g: 0.83137256, b: 0.627451, a: 0}
+  objectSprites:
+  - {fileID: 21300000, guid: f3463cae4eb0b4944876b49f9dcf640e, type: 3}
+  - {fileID: 21300000, guid: 83c08bcce8399ad4d82ea37429440038, type: 3}
+  - {fileID: 21300000, guid: d6f9afc7a09f69c41b72ce57b83f30ea, type: 3}
+  - {fileID: 21300000, guid: 29c9d5abd6227b344b086790eaa9698c, type: 3}

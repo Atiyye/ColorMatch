@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -6,59 +7,86 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
 
     [Header("Game Configuration")]
-    [Tooltip("Min Box")]
     [SerializeField] private int minBoxCount = 2;
-
-    [Tooltip("Max Box")]
     [SerializeField] private int maxBoxCount = 3;
 
     [Header("References")]
     [SerializeField] private Transform boxesParent;
+    [SerializeField] private Transform itemsParent;
     [SerializeField] private GameObject boxPrefab;
+    [SerializeField] private GameObject itemPrefab;
 
     void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    void Start()
-    {
-        PrepareNewLevel();
-    }
+    void Start() => PrepareNewLevel();
 
     public void PrepareNewLevel()
     {
-        List<ColorData> colorPool = GameManager.Instance != null ? GameManager.Instance.allColorDatas : null;
-        
-        int totalAvailableColors = colorPool != null ? colorPool.Count : 0;
-
-        if (totalAvailableColors == 0)
+        var colorPool = GameManager.Instance?.allColorDatas;
+        if (colorPool == null || colorPool.Count == 0)
         {
-            Debug.LogError("List is empty");
+            Debug.LogError("Color pool is empty!");
             return;
         }
 
-        int upperLimit = Mathf.Min(maxBoxCount + 1, totalAvailableColors + 1);
-        int targetCount = Random.Range(minBoxCount, upperLimit);
+        ClearExistingObjects();
 
-        Debug.Log("Box count: " + targetCount);
-        SpawnBoxes(targetCount, colorPool);
+        int targetCount = Mathf.Min(maxBoxCount + 1, colorPool.Count + 1);
+        int boxCount = Random.Range(minBoxCount, targetCount);
+        var selectedColors = colorPool.OrderBy(_ => Random.value).Take(boxCount).ToList();
+
+        SpawnBoxes(selectedColors);
+        SpawnDraggableItems(selectedColors);
     }
 
-    void SpawnBoxes(int count, List<ColorData> colorPool)
+    private void SpawnBoxes(List<ColorData> colors)
     {
-        foreach (Transform child in boxesParent)
-            Destroy(child.gameObject);
-
-        for (int i = 0; i < count; i++)
+        colors.ForEach(color => 
         {
-            GameObject newBox = Instantiate(boxPrefab, boxesParent);
-            
-            // ColorData assignedColor = colorPool[i]; 
-            // newBox.GetComponent<BoxSetup>().Initialize(assignedColor);
-        }
+            Instantiate(boxPrefab, boxesParent)
+                .GetComponent<ColorDropTarget>()?.InitializeBox(color);
+        });
     }
+
+    private void SpawnDraggableItems(List<ColorData> colors)
+    {
+        int totalItemCount = 0;
+
+        foreach (var colorData in colors)
+        {
+            int maxAvailable = colorData.objectSprites?.Count ?? 0;
+            if (maxAvailable == 0) continue;
+
+            int spawnCount = Random.Range(1, Mathf.Min(3, maxAvailable + 1));
+
+            var selectedSprites = colorData.objectSprites
+                .OrderBy(_ => Random.value)
+                .Take(spawnCount);
+
+            foreach (var sprite in selectedSprites)
+            {
+                GameObject item = Instantiate(itemPrefab, itemsParent);
+                if (item.TryGetComponent<DraggableItem>(out var draggable))
+                {
+                    draggable.InitializeItem(colorData, sprite); 
+                    draggable.OnItemDropped += GameManager.Instance.ProcessItemDrop;
+                    totalItemCount++;
+                }
+            }
+        }
+
+        GameManager.Instance.InitializeLevelProgress(totalItemCount);
+    }
+
+    private void ClearExistingObjects()
+    {
+        foreach (Transform child in boxesParent) Destroy(child.gameObject);
+        foreach (Transform child in itemsParent) Destroy(child.gameObject);
+    }
+    
+
 }

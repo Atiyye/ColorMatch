@@ -1,19 +1,25 @@
+using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))] 
+[RequireComponent(typeof(Collider2D))]
 public class DraggableItem : MonoBehaviour
 {
+    [Header("Item Color Info")]
+    [SerializeField] private ColorData itemColorData;
+
+    public event Action<DraggableItem> OnItemDropped;
+
     private Vector3 startPosition;
     private Camera mainCamera;
     private bool isDragging = false;
     private Vector3 mouseOffset;
-
+    public ColorData ItemColorData => itemColorData;
     void Start()
     {
         mainCamera = Camera.main;
         startPosition = transform.position; 
     }
-
+    
     void OnMouseDown()
     {
         isDragging = true;
@@ -23,8 +29,8 @@ public class DraggableItem : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (isDragging)
-            transform.position = GetMouseWorldPosition() + mouseOffset;
+        if (!isDragging) return;
+        transform.position = GetMouseWorldPosition() + mouseOffset;
     }
 
     void OnMouseUp()
@@ -32,7 +38,7 @@ public class DraggableItem : MonoBehaviour
         isDragging = false;
         transform.localScale = Vector3.one;
 
-       // CheckDropTarget();
+        OnItemDropped?.Invoke(this);
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -45,5 +51,28 @@ public class DraggableItem : MonoBehaviour
     public void ReturnToStart()
     {
         transform.position = startPosition;
+    }
+    public void InitializeItem(ColorData colorData, Sprite targetSprite)
+    {
+        itemColorData = colorData;
+
+        if (TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+        {
+            spriteRenderer.sprite = targetSprite;
+            spriteRenderer.color = Color.white; 
+        }
+        
+        if (TryGetComponent<UnityEngine.UI.Image>(out var uiImage))
+        {
+            uiImage.sprite = targetSprite;
+            
+            Color imgColor = uiImage.color;
+            imgColor.a = 1f;
+            uiImage.color = imgColor;
+        }
+    }
+    private void OnDestroy()
+    {
+        OnItemDropped = null; 
     }
 }

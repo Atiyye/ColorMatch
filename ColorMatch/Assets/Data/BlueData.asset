@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: BlueData
   m_EditorClassIdentifier: 
   colorName: Blue
-  boxColor: {r: 0, g: 0, b: 1, a: 0}
-  objectSprites: []
+  boxColor: {r: 0.25882354, g: 0.7254902, b: 0.9647059, a: 0}
+  objectSprites:
+  - {fileID: 21300000, guid: dc2d186defac9364b92775ef734f8a7d, type: 3}
+  - {fileID: 21300000, guid: e30ce4462c55e1b408368df8c47bf74e, type: 3}
+  - {fileID: 21300000, guid: 765734e7442d8e244915b2c12e92b1a6, type: 3}
+  - {fileID: 21300000, guid: 8d1b9974687f32d4bb5f2a5dde70f908, type: 3}
+  - {fileID: 21300000, guid: eb64037d609078b48a142cc34ce9cc1c, type: 3}
+  - {fileID: 21300000, guid: 17cbdb2fc69f3f14597740ef06bb5768, type: 3}
