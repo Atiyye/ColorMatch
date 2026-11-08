@@ -1,78 +1,90 @@
-using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using System;
 
-[RequireComponent(typeof(Collider2D))]
-public class DraggableItem : MonoBehaviour
+[RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(Image))]
+public class DraggableItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("Item Color Info")]
-    [SerializeField] private ColorData itemColorData;
+    private ColorData itemColorData;
+    public ColorData ItemColorData => itemColorData;
 
     public event Action<DraggableItem> OnItemDropped;
 
-    private Vector3 startPosition;
-    private Camera mainCamera;
-    private bool isDragging = false;
-    private Vector3 mouseOffset;
-    public ColorData ItemColorData => itemColorData;
-    void Start()
-    {
-        mainCamera = Camera.main;
-        startPosition = transform.position; 
-    }
-    
-    void OnMouseDown()
-    {
-        isDragging = true;
-        mouseOffset = transform.position - GetMouseWorldPosition();
-        transform.localScale = Vector3.one * 1.15f;
-    }
+    private RectTransform rectTransform;
+    private Canvas canvas;
+    private CanvasGroup canvasGroup;
+    private Transform startParent;
+    private int startSiblingIndex;
 
-    void OnMouseDrag()
-    {
-        if (!isDragging) return;
-        transform.position = GetMouseWorldPosition() + mouseOffset;
-    }
-
-    void OnMouseUp()
-    {
-        isDragging = false;
-        transform.localScale = Vector3.one;
-
-        OnItemDropped?.Invoke(this);
-    }
-
-    private Vector3 GetMouseWorldPosition()
-    {
-        Vector3 mouseScreenPos = Input.mousePosition;
-        mouseScreenPos.z = -mainCamera.transform.position.z;
-        return mainCamera.ScreenToWorldPoint(mouseScreenPos);
-    }
-
-    public void ReturnToStart()
-    {
-        transform.position = startPosition;
-    }
     public void InitializeItem(ColorData colorData, Sprite targetSprite)
     {
         itemColorData = colorData;
 
-        if (TryGetComponent<SpriteRenderer>(out var spriteRenderer))
-        {
-            spriteRenderer.sprite = targetSprite;
-            spriteRenderer.color = Color.white; 
-        }
-        
-        if (TryGetComponent<UnityEngine.UI.Image>(out var uiImage))
+        if (TryGetComponent<Image>(out var uiImage))
         {
             uiImage.sprite = targetSprite;
-            
             Color imgColor = uiImage.color;
             imgColor.a = 1f;
             uiImage.color = imgColor;
         }
     }
-    private void OnDestroy()
+
+    void Awake()
     {
-        OnItemDropped = null; 
+        rectTransform = GetComponent<RectTransform>();
+        canvasGroup = GetComponent<CanvasGroup>();
+        canvas = GetComponentInParent<Canvas>();
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        startParent = transform.parent;
+        startSiblingIndex = transform.GetSiblingIndex(); 
+        
+        if (startParent.TryGetComponent<LayoutGroup>(out var layoutGroup))
+            layoutGroup.enabled = false;
+
+        transform.SetParent(canvas.transform, true);
+        
+        canvasGroup.blocksRaycasts = false;
+        transform.localScale = Vector3.one * 1.15f; 
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        canvasGroup.blocksRaycasts = true;
+        transform.localScale = Vector3.one;
+
+        if (transform.parent == canvas.transform && startParent != null)
+        {
+            if (startParent.TryGetComponent<LayoutGroup>(out var layoutGroup))
+            {
+                layoutGroup.enabled = true;
+            }
+        }
+        OnItemDropped?.Invoke(this);
+    }
+
+    public void ReturnToStart()
+    {
+        transform.SetParent(startParent, true);
+        transform.SetSiblingIndex(startSiblingIndex);
+        
+        if (startParent.TryGetComponent<LayoutGroup>(out var layoutGroup))
+        {
+            layoutGroup.enabled = true;
+            if (startParent is RectTransform parentRect)
+            {
+                LayoutRebuilder.ForceRebuildLayoutImmediate(parentRect);
+            }
+        }
     }
 }
