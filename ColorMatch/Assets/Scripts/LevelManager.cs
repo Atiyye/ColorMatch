@@ -52,35 +52,44 @@ public class LevelManager : MonoBehaviour
         });
     }
 
-    private void SpawnDraggableItems(List<ColorData> colors)
-    {
-        int totalItemCount = 0;
-
-        foreach (var colorData in colors)
-        {
-            int maxAvailable = colorData.objectSprites?.Count ?? 0;
-            if (maxAvailable == 0) continue;
-
-            int spawnCount = Random.Range(1, Mathf.Min(3, maxAvailable + 1));
-
-            var selectedSprites = colorData.objectSprites
-                .OrderBy(_ => Random.value)
-                .Take(spawnCount);
-
-            foreach (var sprite in selectedSprites)
-            {
-                GameObject item = Instantiate(itemPrefab, itemsParent);
-                if (item.TryGetComponent<DraggableItem>(out var draggable))
-                {
-                    draggable.InitializeItem(colorData, sprite); 
-                    draggable.OnItemDropped += GameManager.Instance.ProcessItemDrop;
-                    totalItemCount++;
-                }
-            }
-        }
-
-        GameManager.Instance.InitializeLevelProgress(totalItemCount);
-    }
+  private void SpawnDraggableItems(List<ColorData> colors)
+  {
+      int totalItemCount = 0;
+  
+      List<(ColorData colorData, Sprite sprite)> allSpawnableItems = new List<(ColorData, Sprite)>();
+  
+      foreach (var colorData in colors)
+      {
+          int maxAvailable = colorData.objectSprites?.Count ?? 0;
+          if (maxAvailable == 0) continue;
+  
+          int spawnCount = Random.Range(1, Mathf.Min(3, maxAvailable + 1));
+  
+          var selectedSprites = colorData.objectSprites
+              .OrderBy(_ => Random.value)
+              .Take(spawnCount);
+  
+          foreach (var sprite in selectedSprites)
+          {
+              allSpawnableItems.Add((colorData, sprite));
+          }
+      }
+  
+      var shuffledItems = allSpawnableItems.OrderBy(_ => Random.value).ToList();
+  
+      foreach (var itemInfo in shuffledItems)
+      {
+          GameObject item = Instantiate(itemPrefab, itemsParent);
+          if (item.TryGetComponent<DraggableItem>(out var draggable))
+          {
+              draggable.InitializeItem(itemInfo.colorData, itemInfo.sprite); 
+              draggable.OnItemDropped += GameManager.Instance.ProcessItemDrop;
+              totalItemCount++;
+          }
+      }
+  
+      GameManager.Instance.InitializeLevelProgress(totalItemCount);
+  }
 
     private void ClearExistingObjects()
     {
