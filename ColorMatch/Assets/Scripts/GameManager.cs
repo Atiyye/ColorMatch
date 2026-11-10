@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Data Pool")]
     public List<ColorData> allColorDatas;
+    
+    [Header("Box Item Settings")]
+    [SerializeField] private float itemScale = 0.8f;
+    [SerializeField] private float itemOffsetX = 25f;
 
     private int targetBoxCount;
     private int matchedItemCount;
@@ -43,18 +47,37 @@ public class GameManager : MonoBehaviour
             droppedItem.ReturnToStart();
             return;
         }
-        
-        Transform itemTransform = droppedItem.transform;
-        itemTransform.position = targetBox.transform.position;
-        itemTransform.localScale = Vector3.one * 0.8f;
 
-        if (droppedItem.TryGetComponent<CanvasGroup>(out var canvasGroup))
-            canvasGroup.blocksRaycasts = false;
-        droppedItem.enabled = false;
-
+        PlaceItemIntoBox(droppedItem, targetBox);
         HandleSuccessfulMatch(droppedItem);
     }
 
+    private void PlaceItemIntoBox(DraggableItem droppedItem, ColorDropTarget targetBox)
+    {
+        Transform itemTransform = droppedItem.transform;
+        
+        // Nesneyi kutunun içine taşıyoruz
+        itemTransform.SetParent(targetBox.ItemDropPoint, false);
+        itemTransform.localScale = Vector3.one * itemScale;
+
+        if (itemTransform is RectTransform itemRect)
+        {
+            // Kutunun içerisindeki mevcut sıra numarasına göre sağa veya sola konumlandırıyoruz
+            int itemIndex = targetBox.ItemDropPoint.childCount - 1;
+            float targetX = (itemIndex == 0) ? -itemOffsetX : itemOffsetX;
+
+            itemRect.anchoredPosition = new Vector2(targetX, 0f);
+            itemRect.localRotation = Quaternion.identity;
+        }
+
+        // Sürükleme etkileşimini kapatıyoruz
+        if (droppedItem.TryGetComponent<CanvasGroup>(out var canvasGroup))
+        {
+            canvasGroup.blocksRaycasts = false;
+        }
+        
+        droppedItem.enabled = false;
+    }
     private void HandleSuccessfulMatch(DraggableItem matchedItem)
     {
         matchedItem.OnItemDropped -= ProcessItemDrop;

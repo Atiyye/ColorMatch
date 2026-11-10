@@ -4,9 +4,12 @@ public class ColorDropTarget : MonoBehaviour
 {
     [Header("Box Color Info")]
     [SerializeField] private ColorData boxColorData;
-    public ColorData BoxColorData => boxColorData; 
+    public ColorData BoxColorData => boxColorData;
 
     [SerializeField] private UnityEngine.UI.Image boxImage;
+    [SerializeField] private Transform itemDropPoint;
+
+    public Transform ItemDropPoint => itemDropPoint != null ? itemDropPoint : transform;
 
     public void InitializeBox(ColorData colorData)
     {
@@ -23,7 +26,6 @@ public class ColorDropTarget : MonoBehaviour
     public bool CheckMatch(ColorData droppedItemColor)
     {
         if (droppedItemColor == null || boxColorData == null) return false;
-
         return droppedItemColor == boxColorData;
     }
 }
