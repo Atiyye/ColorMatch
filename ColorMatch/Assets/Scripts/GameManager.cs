@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
             Destroy(gameObject);
@@ -100,6 +99,12 @@ public class GameManager : MonoBehaviour
 
         if (LevelManager.Instance != null)
             LevelManager.Instance.PrepareNewLevel();
+    }
+    
+    public void QuitGame()
+    {
+        Debug.Log("Oyundan çıkılıyor..."); // Unity Editöründe çalıştığını görmek için
+        Application.Quit();
     }
 
     private ColorDropTarget FindDropTargetUnderMouse()

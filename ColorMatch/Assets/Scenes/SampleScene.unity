@@ -218,6 +218,7 @@ RectTransform:
   m_Children:
   - {fileID: 1036364455}
   - {fileID: 276321601}
+  - {fileID: 682985812}
   - {fileID: 427556629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -374,6 +375,8 @@ GameObject:
   - component: {fileID: 427556629}
   - component: {fileID: 427556631}
   - component: {fileID: 427556630}
+  - component: {fileID: 427556633}
+  - component: {fileID: 427556632}
   m_Layer: 5
   m_Name: WinPopupPanel
   m_TagString: Untagged
@@ -395,7 +398,6 @@ RectTransform:
   m_Children:
   - {fileID: 357613887}
   - {fileID: 1979258911}
-  - {fileID: 682985812}
   m_Father: {fileID: 192418329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -441,6 +443,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 427556628}
   m_CullTransparentMesh: 1
+--- !u!114 &427556632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427556628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &427556633
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 427556628}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 10
+  m_TargetDisplay: 0
 --- !u!1 &449777235
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,17 +651,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682985811}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 427556629}
+  m_Father: {fileID: 192418329}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 541, y: 250}
-  m_SizeDelta: {x: 204, y: 204}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -120, y: -120}
+  m_SizeDelta: {x: 102, y: 102}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &682985813
 MonoBehaviour:
@@ -665,9 +707,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1119335156}
+      - m_Target: {fileID: 1119335155}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: RestartGame
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -786,7 +828,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1119335157}
-  - component: {fileID: 1119335156}
   - component: {fileID: 1119335155}
   m_Layer: 0
   m_Name: GameManager
@@ -812,21 +853,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 432d8c8fd84e7754593dfa250817ad5f, type: 2}
   - {fileID: 11400000, guid: 367e589f74799c54d968c4715a92db45, type: 2}
   - {fileID: 11400000, guid: 1a391c9a507a587478dc46c9563bcd7e, type: 2}
-  itemScale: 0.8
-  itemOffsetX: 25
---- !u!114 &1119335156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119335154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb12b0e0e3554654e94740972ddd95c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allColorDatas: []
   itemScale: 0.8
   itemOffsetX: 25
 --- !u!4 &1119335157
@@ -1035,11 +1061,11 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1979258913}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1119335156}
+      - m_Target: {fileID: 1119335155}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
