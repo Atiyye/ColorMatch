@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: "A\xD6F"
   productName: ColorMatch
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -260,7 +260,7 @@ PlayerSettings:
   useCustomLauncherManifest: 0
   useCustomMainGradleTemplate: 0
   useCustomLauncherGradleManifest: 0
-  useCustomBaseGradleTemplate: 0
+  useCustomBaseGradleTemplate: 1
   useCustomGradlePropertiesTemplate: 0
   useCustomGradleSettingsTemplate: 0
   useCustomProguardFile: 0
@@ -268,7 +268,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: "C:/Users/atiyy/Desktop/At\u0131yye/Game/ColorMatch/Keystore/user.keystore"
+  AndroidKeystoreName: C:/Users/atiyy/Desktop/Atiye/Game/ColorMatch/Keystore/user.keystore
   AndroidKeyaliasName: colormatch
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidBuildApkPerCpuArchitecture: 0
