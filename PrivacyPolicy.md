@@ -1,4 +1,4 @@
-Baby Color Match - Privacy Policy
+#Baby Color Match - Privacy Policy
 
 Last updated: November 17, 2026
 
